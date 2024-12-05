@@ -2,13 +2,14 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import CopyPlugin from 'copy-webpack-plugin'
+import Dotenv from 'dotenv-webpack'
 const __fileName = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__fileName)
 
 const commonConfig = {
   entry: './src/index.tsx',
   resolve: {
-    extensions: ['.tsx', '.ts', '.js'],
+    extensions: ['.tsx', '.ts', '.js', '.css'],
   },
   module: {
     rules: [
@@ -56,6 +57,7 @@ const commonConfig = {
     //     },
     //   ],
     // }),
+    new Dotenv(),
   ],
 }
 

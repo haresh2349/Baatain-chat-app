@@ -1,11 +1,23 @@
-import React, { useState } from 'react'
-import './app.css'
-const App = () => {
+import React, { useEffect, useState } from 'react'
+import Login from './modules/auth/login/Login'
+import { useTheme } from './contexts/ThemeContext'
+import image from "./resources/image.png"
+import Signup from './modules/auth/signup/Signup'
+
+const App : React.FC = () => {
+  const {toggleTheme} = useTheme();
+  const [showLogin,setShowLogin] = useState(true);
+  useEffect(()=> {
+    setTimeout(() => {
+      toggleTheme()
+    },5000)
+  },[])
   return (
     <>
-      <h1> App</h1>
+      {showLogin && <Login setShowLogin={setShowLogin} />}
+      {!showLogin && <Signup setShowLogin={setShowLogin}/>}
     </>
   )
 }
 
-export default App
+export default React.memo(App)

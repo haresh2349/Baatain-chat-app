@@ -1,0 +1,41 @@
+:root {
+    --bg-color: #FFF;
+    --text-color: #000000;
+    --primary-color: #007bff;
+    --border-color:gray
+}
+
+[data-theme="dark"] {
+    --bg-color: #19558E;
+    --text-color: #FFFF;
+    --primary-color: #212121;
+    --border-color: #FFF
+    
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+button {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.link {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+}
