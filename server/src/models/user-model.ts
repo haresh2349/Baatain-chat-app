@@ -27,14 +27,14 @@ const UserSchema = new Schema<IUser>({
         type:String,
         required:true
     },
-    countryCode:{
-        type:String,
-        required:true
-    },
-    contactNumber:{
-        type:Number,
-        required:true
-    },
+    // countryCode:{
+    //     type:String,
+    //     required:true
+    // },
+    // contactNumber:{
+    //     type:Number,
+    //     required:true
+    // },
     password:{
         type:String,
         required:true

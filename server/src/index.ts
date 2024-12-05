@@ -24,8 +24,8 @@ import { initializeSocket } from "./services/socket.service";
 import { verifyToken } from "./middlerwares/auth.middleware";
 
 const io = initializeSocket(server);
-app.use("/auth",AuthRouter)
-app.use("/users",verifyToken,UserRouter);
+app.use("/api/v1/auth",AuthRouter)
+app.use("/api/v1/users",verifyToken,UserRouter);
 
 
 server.listen(port,() => {
