@@ -1,5 +1,8 @@
 * {
   font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html {
@@ -9,5 +12,16 @@ html {
 .link {
   color: blue;
   text-decoration: underline;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  /* Remove scrollbar space */
+  background: transparent;
+  /* Optional: just make scrollbar invisible */
+}
+
+.cursor_pointer{
   cursor: pointer;
 }

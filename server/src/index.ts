@@ -4,13 +4,13 @@ import cors from "cors"
 import http from "http"
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
+import { Server } from "socket.io";
 import { connectToDB } from "./utills/mongodb-connection";
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT 
 const server = http.createServer(app)
-
 
 // middlewares
 app.use(cors());

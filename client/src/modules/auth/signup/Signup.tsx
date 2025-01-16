@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useTheme } from "../../../contexts/ThemeContext"
 import { Input } from "../../../components/Elements/Input/Input"
 import Styles from "./signup.module.css"
-import {handleErrors, handleRegisterUser, handleValidate } from "./signup-manager";
+import {handleSignupErrors, handleRegisterUser, handleValidate } from "./signup-manager";
 import { handleCheckUniquenessOfEmail } from "../auth-common-managers";
 
 export type SingupUserType = {
@@ -31,7 +31,7 @@ const Signup : React.FC<SignupProps> = ({setShowLogin}) => {
 
 
     const handleSignup = () => {
-        if(handleErrors({formData,setErrors})) return 
+        if(handleSignupErrors({formData,setErrors})) return 
         const next = () => {
 
             setShowLogin(true)

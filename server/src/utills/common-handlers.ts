@@ -1,12 +1,13 @@
 class ApiError extends Error {
     statusCode:number;
     success: boolean;
+    message: string;
     data: any;
     errors:Array<{field?:String,message:String}>
 
     constructor(
-        statusCode: number,
-        message: string = "Something went wrong!",
+        statusCode: number = 500,
+        message: string = "Internal server error!",
         errors: Array<{field?:String,message:String}> = [],
         stack:string = ""
     ){

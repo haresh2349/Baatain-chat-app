@@ -1,8 +1,11 @@
 :root {
     --bg-color: #FFF;
-    --text-color: #000000;
-    --primary-color: #007bff;
-    --border-color:gray
+    --text-color: #000;
+    --text-color-black: #000000;
+    --text-color-white: #FFFF;
+    --primary-color: #535ACB;
+    --secondary-color: #535ACB;
+    --border-color:gray;
 }
 
 [data-theme="dark"] {
@@ -20,7 +23,7 @@ body {
 }
 
 button {
-    background-color: var(--primary-color);
+    background: linear-gradient(90deg, #545BCE 0%, #898EF5 100%);;
     color: var(--text-color);
     border: none;
     padding: 10px 20px;

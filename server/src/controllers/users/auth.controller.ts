@@ -64,7 +64,9 @@ export const LoginUser = asyncHandler(async (req:Request,res:Response): Promise<
     const isPasswordCorrect : Boolean = await user.isPasswordCorrect(password);
     
     if(!isPasswordCorrect) {
-        throw new ApiError(401,"Invalid user credentials.")
+        return res
+        .status(401)
+        .json(new ApiError(401,"Invalid user credentials.",[{ field: "password", message: "Incorrect password" }]))
     }
 
     const userID: Types.ObjectId = user._id;

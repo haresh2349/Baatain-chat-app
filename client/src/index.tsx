@@ -4,6 +4,7 @@ import App from './App';
 import { ThemeProvider } from './contexts/ThemeContext';
 import './app.css'
 import './index.css'
+import { AuthProvider } from './contexts/auth-context';
 const rootElement = document.getElementById('root')
 const root = ReactDOM.createRoot(rootElement as HTMLElement) // New createRoot API
 
@@ -14,7 +15,9 @@ if (!rootElement) {
 root.render(
     <> 
       <ThemeProvider>
-        <App />
+        <AuthProvider>
+          <App />
+        </AuthProvider>
       </ThemeProvider>
     </>
 )

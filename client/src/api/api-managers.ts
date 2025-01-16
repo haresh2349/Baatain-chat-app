@@ -27,7 +27,7 @@ export const handleGetAPICall = async<T> ({url,params,config}:APICallProps):Prom
 export const handlePostAPICall = async <T>({url,payload,config}:APICallProps): Promise<T> => {
   try {
     const response = await axiosInstance.post<T>(url, payload, config);
-    if(response?.status === 201){
+    if(response?.status === 201 || response?.status === 200){
             return response?.data
         } else {
             throw new Error("Something went wrong")

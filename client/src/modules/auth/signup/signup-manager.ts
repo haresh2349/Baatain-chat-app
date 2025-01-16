@@ -1,13 +1,12 @@
 import { AppURL } from "../../../api/api-end-points";
 import { handleGetAPICall, handlePostAPICall } from "../../../api/api-managers";
-import { encryptString } from "../auth-common-managers";
 import { SingupUserType } from "./Signup";
 interface HandleErrorsProps {
     formData: SingupUserType;
     setErrors:React.Dispatch<React.SetStateAction<SingupUserType>>;
 }
 
-export const handleErrors = ({formData,setErrors}:HandleErrorsProps) => {
+export const handleSignupErrors = ({formData,setErrors}:HandleErrorsProps) => {
     const fieldsToCheck : (keyof SingupUserType)[]  = ["userName","email","password"];
     let isError = false;
     fieldsToCheck?.map((field) => {
@@ -71,7 +70,7 @@ export const handleRegisterUser = ({payload,setIsLoading,next}:HandleRegisterUse
     const requestPayload = {
         userName:payload?.userName,
         email:payload?.email,
-        password:encryptString(payload?.password || "")
+        password:payload?.password
     }
     debugger
     handlePostAPICall({url:AppURL.registerUser,payload: requestPayload})

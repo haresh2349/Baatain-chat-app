@@ -2,32 +2,52 @@ import { useState } from "react";
 import { useTheme } from "../../../contexts/ThemeContext"
 import { Input } from "../../../components/Elements/Input/Input"
 import Styles from "./login.module.css"
-import { validateInputField } from "./login-manager";
+import { LoginResponseDataType, handleLoginErrors, handleLoginUser, validateInputField } from "./login-manager";
+import { useAuth } from "../../../contexts/auth-context";
 
 interface LoginProps {
     setShowLogin : React.Dispatch<React.SetStateAction<boolean>>
 }
-const Login : React.FC<LoginProps> = ({setShowLogin}) => {
+
+export type LoginUserType = {
+    email:string | null
+    password:string | null
+}
+
+const Login  = () => {
     const {theme} = useTheme();
-    const [formData,setFormData] = useState({});
+    const { login } = useAuth();
+    const [formData,setFormData] = useState<LoginUserType>({} as LoginUserType);
+    const [errors,setErrors] = useState<LoginUserType>({} as LoginUserType);
+    const [isLoading,setIsLoading] = useState(false);
     const handleChange = (props:{name:string,inputValue:string}) => {
         const {name,inputValue} = props;
         setFormData(prev => {   
             return {...prev,[name]:inputValue}
         })
     }
+    
+    const handleLogin = () => {
+        if(handleLoginErrors({formData,setErrors})) return
+        const next = (data:LoginResponseDataType) => {
+            login();
+            localStorage.setItem("accessToken",JSON.stringify(data?.token))
+        }
+        handleLoginUser({payload:formData,setIsLoading,next})
+    }
 
-    console.log(setShowLogin,"setShowLogin")
     return <div className={Styles.login_wrapper}>
         <div className={`${Styles.container} ${Styles[theme]}`}>
             <header className={Styles.header}>Sign In</header >
             <div className={Styles.fields_wrapper}>
-                <Input isRequired type="email" label="Email" placeholder="Enter email" name="email" onChange={handleChange}/>
-                <Input isRequired type="password" label="Password" placeholder="Enter password" name="password" onChange={handleChange}/>
+                <Input isRequired type="email" label="Email" placeholder="Enter email" name="email" errorMessage={errors?.email} onChange={handleChange}/>
+                <Input isRequired type="password" label="Password" placeholder="Enter password" name="password" errorMessage={errors?.password} onChange={handleChange}/>
                 <div className={Styles.btn_wrapper}>
-                    <button>SIGN IN</button>
+                    <button onClick={handleLogin}>SIGN IN</button>
                 </div>
-                <p className={Styles.l_p}>Don't have an account ? <span onClick={() => setShowLogin(prev => !prev)}>Signup</span></p>
+                <p className={Styles.l_p}>Don't have an account ? <span 
+                // onClick={() => setShowLogin(prev => !prev)}
+                >Signup</span></p>
             </div>
         </div>
     </div>
