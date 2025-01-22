@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useContext, useEffect, useState } from "react";
+import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
 
 interface ThemeContextType {
     theme:"light" | "dark";
@@ -33,6 +33,7 @@ export const ThemeProvider : React.FC<{children:ReactNode}> = ({children}) => {
 
 export const useTheme = () : ThemeContextType => {
     const context = useContext(ThemeContext);
+    console.log(context,"context")
     if (!context) {
         throw new Error("useTheme must be used within a ThemeProvider");
     }

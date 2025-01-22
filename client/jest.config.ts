@@ -16,6 +16,7 @@ const config: Config = {
   testMatch: [
     '**/?(*.)+(spec|test).[jt]s?(x)', // Look for test files
   ],
+  setupFilesAfterEnv: ['./src/setup-jest.ts'],
 }
 
 export default config

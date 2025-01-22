@@ -2,10 +2,10 @@
     width: 30vw;
     display: flex;
     flex-direction: column;
-    grid-gap: 0.5rem;
     height: 100%;
     overflow-y: scroll;
-    background-color: #E1E2FF;
+    background-color: #FFFF;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
 }
 
 
@@ -17,6 +17,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background-color: none;
+    border-bottom: 1px solid #d2d4d8;
+}
+
+.activeCard {
+    background: linear-gradient(90deg, #545BCE 0%, #898EF5 100%);
+    border-left: 2px solid #545BCE;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 50px;
 }
 
 .c_i_c_wrapper_left{
@@ -47,7 +55,7 @@
 .c_i_c_name > p {
     font-size: 1 rem;
     font-weight: 500;
-    color: var(--text-color);
+    color: #000;
 }
 
 .c_i_c_name> span {
@@ -58,6 +66,11 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    color: #696969;
+}
+
+.activeCard  p, .activeCard span {
+    color: #FFF;
 }
 
 .c_i_c_wrapper_right{
