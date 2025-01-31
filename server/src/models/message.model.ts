@@ -1,37 +1,43 @@
-import { model, Schema,Document } from "mongoose";
+import { model, Schema, Document, Types } from "mongoose";
 
-export interface IMessage extends Document  {
-    sender:Schema.Types.ObjectId;
-    reciever:Schema.Types.ObjectId;
-    content:string;
-    contentType?:string;
-    createdAt?: Date
+export interface IMessage extends Document {
+  _id: Types.ObjectId;
+  sender: Types.ObjectId;
+  reciever: Types.ObjectId;
+  content: string;
+  contentType?: string;
+  readBy?: Types.ObjectId[];
+  groupId?: Types.ObjectId[];
+  createdAt?: Date;
 }
 
-export const MessageSchema = new Schema<IMessage>({
-    sender:{
-        type:Schema.Types.ObjectId,
-        ref:"User",
-        required:true
+export const MessageSchema = new Schema<IMessage>(
+  {
+    sender: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
-    reciever:{
-        type:Schema.Types.ObjectId,
-        ref:"User",
-        required:true
+    reciever: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
-    content:{
-        type:String,
-        required:true
+    content: {
+      type: String,
+      required: true,
     },
     contentType: {
-        type: String,
-        enum: ['text', 'image', 'video', 'audio'],
-        default: 'text'
-    }
-},
-{
-    timestamps:true
-}
-)
+      type: String,
+      enum: ["text", "image", "video", "audio"],
+      default: "text",
+    },
+    readBy: [{ type: Schema.Types.ObjectId, ref: "User" }],
+    groupId: { type: Schema.Types.ObjectId, ref: "Group" },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-export const MessageModel = model<IMessage>("Message",MessageSchema)
+export const MessageModel = model<IMessage>("Message", MessageSchema);

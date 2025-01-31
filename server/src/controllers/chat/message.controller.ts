@@ -1,46 +1,49 @@
 import { Schema } from "mongoose";
 import { ConversationModel } from "../../models/conversation.model";
 import { IMessage, MessageModel } from "../../models/message.model";
+import { Request, Response } from "express-serve-static-core";
+import {
+  SendMessageRequestBodyDto,
+  SendMessageRequestParamsDto,
+} from "../../dtos/send-message.dtos";
+import { ApiError, ApiResponse } from "../../utills/common-handlers";
 
-interface SendMessageRequest extends Request {
-    body:{
-        content:string
-    };
-    params:{
-        reciever:Schema.Types.ObjectId;
-    };
-    user?:{
-        id:Schema.Types.ObjectId;
+export const sendMessage = async (
+  req: Request<SendMessageRequestParamsDto, {}, SendMessageRequestBodyDto>,
+  res: Response
+): Promise<void> => {
+  try {
+    const { content } = req.body;
+    const { reciever } = req.query;
+    const sender = req.user?.id;
+    let conversation = await ConversationModel.findOne({
+      participants: { $all: [reciever, sender] },
+    });
+    if (!conversation) {
+      conversation = await ConversationModel.create({
+        participants: [reciever, sender],
+      });
     }
-}
+    const contentType = {
+      string: "text",
+    };
 
-export const sendMessage = async (req:Request,res:Response) => {
-    try {
-        const {content} = req.body;
-        const {reciever} = req.params; 
-        const sender = req.user.id;
+    const newMessage: IMessage = new MessageModel({
+      sender,
+      reciever,
+      content,
+      contentType: "text",
+    });
 
-        let conversation = await ConversationModel.findOne({
-            participants:{$all:[reciever,sender]}
-        })
-        if(!conversation){
-            conversation = await ConversationModel.create({
-                 participants:[reciever,sender]
-            })
-        }
-
-        const newMessage:IMessage = new MessageModel({
-            sender,
-            reciever,
-            content,
-        })
-
-        if(newMessage){
-            await newMessage.save();
-            conversation.messages.push(newMessage);
-            await conversation.save()
-        }
-    } catch (error) {
-        
+    if (newMessage) {
+      await newMessage.save();
+      conversation.messages.push(newMessage?._id);
+      await conversation.save();
     }
-}
+    res
+      .status(201)
+      .send(new ApiResponse("Message created successfully.", null));
+  } catch (error) {
+    res.status(500).send(new ApiError("Internal server error!"));
+  }
+};

@@ -1,40 +1,66 @@
 class ApiError extends Error {
-    statusCode:number;
-    success: boolean;
-    message: string;
-    data: any;
-    errors:Array<{field?:String,message:String}>
+  success: boolean;
+  message: string = "";
+  data: any;
+  errors: Array<{ field?: String; message: String }>;
 
-    constructor(
-        statusCode: number = 500,
-        message: string = "Internal server error!",
-        errors: Array<{field?:String,message:String}> = [],
-        stack:string = ""
-    ){
-        super(message);
-        this.statusCode = statusCode;
-        this.data = null;
-        this.message = message;
-        this.success = false;
-        this.errors = errors
+  constructor(
+    message: string = "Internal server error!",
+    errors: Array<{ field?: String; message: String }> = [],
+    stack: string = ""
+  ) {
+    super(message);
 
-        if (stack) {
-            this.stack = stack;
-        } else {
-            Error.captureStackTrace(this, this.constructor);
-        } 
+    Object.defineProperties(this, {
+      message: {
+        value: message,
+        enumerable: true,
+        writable: true,
+      },
+    });
+    // this.message = message;
+    this.data = null;
+    this.success = false;
+    this.errors = errors;
+
+    if (stack) {
+      this.stack = stack;
+    } else {
+      Error.captureStackTrace(this, this.constructor);
     }
+  }
 }
 
 class ApiResponse<T = any> {
-    statusCode: number
-    message: string
-    data: T
-    constructor(statusCode:number,message:string,data:T) {
-        this.statusCode = statusCode;
-        this.message = message || "Success"
-        this.data = data
-    }
+  message: string;
+  data: T;
+  constructor(message: string, data: T) {
+    this.message = message || "Success";
+    this.data = data;
+  }
 }
 
-export {ApiError,ApiResponse}
+class Pagination {
+  page: number;
+  limit: number;
+
+  constructor(page: number = 1, limit: number = 15) {
+    this.page = page;
+    this.limit = limit;
+  }
+
+  getSkip(): number {
+    return (this.page - 1) * this.limit;
+  }
+
+  getPaginationMetaData(totalCount: number) {
+    const totalPages = Math.ceil(totalCount / this.limit);
+    return {
+      totalCount,
+      totalPages,
+      currentPage: this.page,
+    };
+  }
+}
+
+export { ApiError, ApiResponse, Pagination };
