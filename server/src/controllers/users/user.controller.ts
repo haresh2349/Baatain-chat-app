@@ -1,6 +1,6 @@
 import { UserModel } from "../../models/user-model";
 import { asyncHandler } from "../../utills/async-handler";
-import { Request, Response } from "express";
+import { Request, Response } from "express-serve-static-core";
 import { ApiResponse } from "../../utills/common-handlers";
 export const fetchAllUsers = asyncHandler(
   async (req: Request, res: Response): Promise<Response> => {

@@ -23,16 +23,18 @@ export const RegisterUser = asyncHandler(
     // CHECK PRESENSE OF ALL REQUIRED FIELDS
     const requiredFields = ["userName,email,password"];
     if (requiredFields.some((field) => field.trim() === "")) {
-      throw new ApiError("Please provide all required fields!");
+      return res
+        .status(400)
+        .json(new ApiError("Please provide all required fields!"));
     }
 
     //CHECK UNIQUENESS OF EMAIL AND USERNAME
     const isEmailAlreadyExists = await UserModel.findOne({ email });
     const isUserNameAlreadyExists = await UserModel.findOne({ userName });
     if (isEmailAlreadyExists) {
-      throw new ApiError("Email already Exists!");
+      return res.status(409).json(new ApiError("Email already Exists!"));
     } else if (isUserNameAlreadyExists) {
-      throw new ApiError("UserName already Exists!");
+      return res.status(409).json(new ApiError("UserName already Exists!"));
     }
 
     const newUser: IUser = await UserModel.create({

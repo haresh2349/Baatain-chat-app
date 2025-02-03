@@ -7,7 +7,7 @@ export interface IMessage extends Document {
   content: string;
   contentType?: string;
   readBy?: Types.ObjectId[];
-  groupId?: Types.ObjectId[];
+  chatId?: Types.ObjectId[];
   createdAt?: Date;
 }
 
@@ -33,7 +33,7 @@ export const MessageSchema = new Schema<IMessage>(
       default: "text",
     },
     readBy: [{ type: Schema.Types.ObjectId, ref: "User" }],
-    groupId: { type: Schema.Types.ObjectId, ref: "Group" },
+    chatId: { type: Schema.Types.ObjectId, ref: "Group" },
   },
   {
     timestamps: true,

@@ -7,12 +7,13 @@ import {
   SendMessageRequestParamsDto,
 } from "../../dtos/send-message.dtos";
 import { ApiError, ApiResponse } from "../../utills/common-handlers";
+import { asyncHandler } from "../../utills/async-handler";
 
-export const sendMessage = async (
-  req: Request<SendMessageRequestParamsDto, {}, SendMessageRequestBodyDto>,
-  res: Response
-): Promise<void> => {
-  try {
+export const sendMessage = asyncHandler(
+  async (
+    req: Request<SendMessageRequestParamsDto, {}, SendMessageRequestBodyDto>,
+    res: Response
+  ): Promise<void> => {
     const { content } = req.body;
     const { reciever } = req.query;
     const sender = req.user?.id;
@@ -38,12 +39,16 @@ export const sendMessage = async (
     if (newMessage) {
       await newMessage.save();
       conversation.messages.push(newMessage?._id);
+      conversation.lastMessage = newMessage?._id;
       await conversation.save();
     }
     res
       .status(201)
       .send(new ApiResponse("Message created successfully.", null));
-  } catch (error) {
-    res.status(500).send(new ApiError("Internal server error!"));
+    // try {
+
+    // } catch (error) {
+    //   res.status(500).send(new ApiError("Internal server error!"));
+    // }
   }
-};
+);

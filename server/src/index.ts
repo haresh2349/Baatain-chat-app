@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Response } from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import http from "http";
@@ -26,7 +26,6 @@ import { verifyToken } from "./middlerwares/auth.middleware";
 const io = initializeSocket(server);
 app.use("/api/v1/auth", AuthRouter);
 app.use("/api/v1/chat", verifyToken, ConversationRouter);
-
 server.listen(port, () => {
   console.log(`Listening on PORT : ${port}`);
 });

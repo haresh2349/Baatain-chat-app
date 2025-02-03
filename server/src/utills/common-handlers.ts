@@ -1,7 +1,7 @@
 class ApiError extends Error {
   success: boolean;
   message: string = "";
-  data: any;
+  result: any;
   errors: Array<{ field?: String; message: String }>;
 
   constructor(
@@ -19,7 +19,7 @@ class ApiError extends Error {
       },
     });
     // this.message = message;
-    this.data = null;
+    this.result = null;
     this.success = false;
     this.errors = errors;
 
@@ -33,10 +33,10 @@ class ApiError extends Error {
 
 class ApiResponse<T = any> {
   message: string;
-  data: T;
-  constructor(message: string, data: T) {
+  result: T;
+  constructor(message: string, result: T) {
     this.message = message || "Success";
-    this.data = data;
+    this.result = result;
   }
 }
 
